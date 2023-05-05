@@ -3,10 +3,17 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"os"
 )
 
+const DEFAULT_KEYCLONK_URL = "https://sso.sikalabs.com/realms/ondrejsika"
+
 func main() {
-	KEYCLOAK_URL := "https://sso.sikalabs.com/realms/ondrejsika"
+	KEYCLOAK_URL := os.Getenv("KEYCLOAK_URL")
+	if KEYCLOAK_URL == "" {
+		KEYCLOAK_URL = DEFAULT_KEYCLONK_URL
+	}
+
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		resource := r.URL.Query().Get("resource")
 
